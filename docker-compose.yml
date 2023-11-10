@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    restart: always
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./app:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=ifs_db_user
+      - POSTGRES_PASSWORD=59ip4hro5cv76ai4
+      - POSTGRES_DB=ifs_db
+    expose:
+      - 5432
+
+volumes:
+  postgres_data:
