@@ -35,7 +35,7 @@ def create_message_router(interaction_id: str, message: MessageCreate, db=Depend
 
 
 # Get all messages in an interaction
-@router.get("/interactions/{interaction_id}", response_model=list[Message])
+@router.get("/interactions/{interaction_id}/messages", response_model=list[Message])
 def get_messages_router(interaction_id: str, db=Depends(get_db)):
     messages = get_messages(db, interaction_id)
     if not messages:
