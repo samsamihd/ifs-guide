@@ -19,3 +19,11 @@ docker-compose up --build
 ### Access the FastAPI Application
 
 Visit [http://localhost:8000](http://localhost:8000/docs) in your web browser or use tools like `curl` or `Postman` to interact with the API.
+
+### Endpoints
+#### Interactions
+- POST /interactions - Create a new interaction
+- GET /interactions - Get all interactions
+#### Messages
+- POST /interactions/{id}/messages - Create a message in an interaction
+- GET /interactions/{id}/messages - Get all messages in an interaction
