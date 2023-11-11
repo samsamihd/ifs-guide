@@ -15,6 +15,7 @@ def get_db():
         db.close()
 
 
+# Create a new interaction
 def create_interaction(db: Session, interaction: InteractionCreate):
     interaction = Interaction(settings=interaction.settings)
     db.add(interaction)
@@ -23,10 +24,12 @@ def create_interaction(db: Session, interaction: InteractionCreate):
     return interaction
 
 
+# Get all interactions
 def get_interactions(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Interaction).offset(skip).limit(limit).all()
 
 
+# Get a specific interactions
 def get_interaction(db: Session, interaction_id: UUID):
     interaction = db.query(Interaction).filter(
         Interaction.id == interaction_id).first()
@@ -35,14 +38,7 @@ def get_interaction(db: Session, interaction_id: UUID):
     return
 
 
-def get_messages(db: Session, interaction_id: UUID):
-    interaction = db.query(Interaction).filter(
-        Interaction.id == interaction_id).first()
-    if not interaction:
-        return None
-    return interaction.messages
-
-
+# Create a message in an interaction and get response from AI
 def create_message(db: Session, message: MessageCreate, interaction_id: UUID):
     message = Message(
         interaction_id=interaction_id,
@@ -81,3 +77,12 @@ def create_message(db: Session, message: MessageCreate, interaction_id: UUID):
     db.refresh(message)
 
     return message
+
+
+# Get all messages in an interaction
+def get_messages(db: Session, interaction_id: UUID):
+    interaction = db.query(Interaction).filter(
+        Interaction.id == interaction_id).first()
+    if not interaction:
+        return None
+    return interaction.messages

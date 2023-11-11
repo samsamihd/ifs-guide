@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 
 
+# Interactions sqlalchemy model
 class Interaction(Base):
     __tablename__ = "interactions"
 
@@ -17,6 +18,7 @@ class Interaction(Base):
     messages = relationship("Message", back_populates="interaction")
 
 
+# Message sqlalchemy model
 class Message(Base):
     __tablename__ = "messages"
 

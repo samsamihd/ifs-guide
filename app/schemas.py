@@ -4,6 +4,8 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
+# Messages pydantic model
+
 class MessageBase(BaseModel):
     id: UUID | None = None
     role: str
@@ -21,6 +23,8 @@ class Message(MessageBase):
     class Config:
         from_attributes = True
 
+
+# Interactions pydantic model
 
 class InteractionBase(BaseModel):
     id: UUID | None = None

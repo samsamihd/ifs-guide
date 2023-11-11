@@ -12,28 +12,32 @@ def read_root():
     return "This is IFS Guide!"
 
 
+# Create a new interaction
 @router.post("/interactions/", response_model=InteractionCreate)
 def create_interaction_router(interaction: Interaction, db: Session = Depends(get_db)):
     return create_interaction(db=db, interaction=interaction)
 
 
+# Get all interactions
 @router.get("/interactions/", response_model=list[Interaction])
 def get_interactions_router(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     interactions = get_interactions(db, skip=skip, limit=limit)
     return interactions
 
 
-@router.get("/interactions/{interaction_id}", response_model=list[Message])
-def get_messages_router(interaction_id: str, db=Depends(get_db)):
-    messages = get_messages(db, interaction_id)
-    if not messages:
-        raise HTTPException(status_code=404, detail="Interaction not found")
-    return messages
-
-
+# Create a message in an interaction
 @router.post("/interactions/{interaction_id}/messages", response_model=MessageCreate)
 def create_message_router(interaction_id: str, message: MessageCreate, db=Depends(get_db)):
     message = create_message(db, message, interaction_id)
     if not message:
         raise HTTPException(status_code=404, detail="Interaction not found")
     return message
+
+
+# Get all messages in an interaction
+@router.get("/interactions/{interaction_id}", response_model=list[Message])
+def get_messages_router(interaction_id: str, db=Depends(get_db)):
+    messages = get_messages(db, interaction_id)
+    if not messages:
+        raise HTTPException(status_code=404, detail="Interaction not found")
+    return messages
